@@ -1,0 +1,93 @@
+<DOCTYPE HTML>
+  <html>
+
+<style>
+button1 {
+  background-color: #04AA6D;
+  border: none;
+  color: black;
+  padding: 20px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 40px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+</style>
+
+<style>
+button2 {
+  background-color: #04AA6D;
+  border: none;
+  color: black;
+  padding: 8px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+</style>
+
+<style>
+button3 {
+  background-color: #04AA6D;
+  border: none;
+  color: black;
+  padding: 8px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+</style>
+<style>
+button1 {
+ float: right;
+ }
+ </style>
+<style>
+button3 {
+ float: right;
+ }
+ </style>
+ <style>
+    h3 {
+ float: right;
+ }
+ </style>
+ <h1>Unblocked Games And Stuff 
+ <button1 onclick="window.location.href='Motherload.html';" >Setings</button1>
+ <button1 onclick="window.location.href='Motherload.html';" >Game</button1>
+ <button1 onclick="window.location.href='Motherload.html';" >Home</button1></h1>
+<p>Because if you are here this is not blocked</p>
+
+
+
+<head>
+
+<style>
+body  {
+  background-color: gray;
+}
+</style>
+
+</head>
+    <body>
+  
+ <h2>Bloons TD</h2> <h3>HSM</h3>
+    
+    <button2 onclick="window.location.href='Motherload.html';" >GN</button2>
+          <button2 onclick="window.location.href='Motherload.html';" >GN</button2>
+               <button2 onclick="window.location.href='Motherload.html';" >GN</button2>
+                    <button2 onclick="window.location.href='Motherload.html';" >GN</button2>
+                         <button2 onclick="window.location.href='Motherload.html';" >GN</button2>                         
+                         <button3 onclick="window.location.href='Motherload.html';" >GN</button3>
+                                   
+    
+    </body>
+  </html>
