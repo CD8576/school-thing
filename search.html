@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Search Engine</title>
+    <title>Simple Local Search Engine</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,13 +20,16 @@
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
         }
         .search-box {
-            width: 300px;
-            padding: 10px;
+            width: 80%;
+            padding: 12px;
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            margin-bottom: 20px;
         }
         .search-button {
             padding: 10px 20px;
@@ -41,17 +44,76 @@
         .search-button:hover {
             background-color: #45a049;
         }
+        .results {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: none; /* Hidden by default */
+        }
+        .result-item {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .no-results {
+            color: red;
+        }
     </style>
 </head>
 <body>
 
     <div class="search-container">
-        <h1>Simple Search Engine</h1>
-        <form action="https://www.google.com/search" method="get">
-            <input type="text" name="q" class="search-box" placeholder="Enter your search" required>
-            <button type="submit" class="search-button">Search</button>
-        </form>
+        <h1>Simple Local Search Engine</h1>
+        <input type="text" id="search-input" class="search-box" placeholder="Search for articles..." oninput="performSearch()">
+        <div id="search-results" class="results">
+            <div class="no-results" id="no-results-message">No results found.</div>
+        </div>
     </div>
+
+    <script>
+        // Sample data to search through (could be articles, links, or other content)
+        const data = [
+            { title: "How to Build a Website", link: "#1" },
+            { title: "Introduction to HTML", link: "#2" },
+            { title: "CSS Basics for Beginners", link: "#3" },
+            { title: "JavaScript Fundamentals", link: "#4" },
+            { title: "Advanced CSS Techniques", link: "#5" },
+            { title: "Building Web Applications with JavaScript", link: "#6" },
+            { title: "Search Engines and SEO", link: "#7" },
+        ];
+
+        // Perform search and display results
+        function performSearch() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const resultsContainer = document.getElementById('search-results');
+            const noResultsMessage = document.getElementById('no-results-message');
+            resultsContainer.innerHTML = ''; // Clear previous results
+
+            // Filter data based on the query
+            const filteredData = data.filter(item => item.title.toLowerCase().includes(query));
+
+            // If there are no results
+            if (filteredData.length === 0) {
+                resultsContainer.style.display = 'block';
+                noResultsMessage.style.display = 'block';
+            } else {
+                resultsContainer.style.display = 'block';
+                noResultsMessage.style.display = 'none';
+                
+                // Display matching results
+                filteredData.forEach(item => {
+                    const resultItem = document.createElement('div');
+                    resultItem.classList.add('result-item');
+                    resultItem.innerHTML = `<a href="${item.link}">${item.title}</a>`;
+                    resultsContainer.appendChild(resultItem);
+                });
+            }
+        }
+    </script>
 
 </body>
 </html>
