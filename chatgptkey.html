@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bluetooth Control with Send Button</title>
+</head>
+<body>
+  <h1>Bluetooth Communication Control</h1>
+
+  <button id="startButton">Start Bluetooth</button>
+  <button id="stopButton" disabled>Stop Bluetooth</button>
+  
+  <div>
+    <textarea id="inputText" rows="4" cols="50" placeholder="Type here..."></textarea><br>
+    <button id="sendTextButton" disabled>Send Text to Device</button>
+  </div>
+  
+  <p id="status">Bluetooth not connected</p>
+
+  <script>
+    let device = null;
+    let server = null;
+
+    // Check if Web Bluetooth is supported by the browser
+    if (!navigator.bluetooth) {
+      alert('Web Bluetooth is not supported in this browser.');
+    }
+
+    // Start Bluetooth connection
+    document.getElementById('startButton').addEventListener('click', async () => {
+      try {
+        // Request Bluetooth device
+        device = await navigator.bluetooth.requestDevice({
+          filters: [{ services: ['battery_service', 'hid'] }]
+        });
+        
+        // Connect to the device
+        server = await device.gatt.connect();
+        
+        // Enable the "Send Text to Device" button
+        document.getElementById('sendTextButton').disabled = false;
+        
+        // Update the UI
+        document.getElementById('status').textContent = `Connected to: ${device.name}`;
+        document.getElementById('startButton').disabled = true;
+        document.getElementById('stopButton').disabled = false;
+        
+        // Add a disconnect event listener
+        device.addEventListener('gattserverdisconnected', onDisconnected);
+
+      } catch (error) {
+        alert('Failed to connect to the device: ' + error);
+      }
+    });
+
+    // Stop Bluetooth connection
+    document.getElementById('stopButton').addEventListener('click', () => {
+      if (device && device.gatt.connected) {
+        device.gatt.disconnect();
+        // Disable the "Send Text to Device" button
+        document.getElementById('sendTextButton').disabled = true;
+        // Update the UI
+        document.getElementById('status').textContent = 'Bluetooth not connected';
+        document.getElementById('startButton').disabled = false;
+        document.getElementById('stopButton').disabled = true;
+      }
+    });
+
+    // Handle disconnection
+    function onDisconnected(event) {
+      document.getElementById('status').textContent = 'Bluetooth device disconnected';
+      document.getElementById('sendTextButton').disabled = true;
+      document.getElementById('startButton').disabled = false;
+      document.getElementById('stopButton').disabled = true;
+    }
+
+    // Send Text to Device
+    document.getElementById('sendTextButton').addEventListener('click', async () => {
+      const inputText = document.getElementById('inputText').value;
+      
+      // Check if the device is connected before sending text
+      if (device && server) {
+        try {
+          // Get HID service
+          const service = await server.getPrimaryService('hid');
+          
+          // Get the characteristic for writing text (this is where HID keypress data goes)
+          const characteristic = await service.getCharacteristic('hid_report');
+
+          // Send the input text as HID keycodes (simplified example)
+          const keycodes = textToKeycodes(inputText);
+          const encoder = new TextEncoder();
+          await characteristic.writeValue(encoder.encode(keycodes));
+
+          alert('Text sent to the Bluetooth device!');
+        } catch (error) {
+          alert('Failed to send text to device: ' + error);
+        }
+      } else {
+        alert('No device connected.');
+      }
+    });
+
+    // Function to convert text to HID keycodes (basic example, you may need custom mapping)
+    function textToKeycodes(text) {
+      const keycodes = [];
+      for (let char of text) {
+        // This is a basic example, mapping ASCII directly to HID keycodes
+        const code = char.charCodeAt(0);
+        keycodes.push(code); // Add your keycode conversion logic
+      }
+      return String.fromCharCode(...keycodes); // Return as string or specific byte sequence for HID
+    }
+  </script>
+</body>
+</html>
