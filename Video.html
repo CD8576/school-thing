@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flash Game with Ruffle</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+    }
+    #game-container {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+  <!-- Ruffle loader from official CDN -->
+  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+</head>
+<body>
+  <div id="game-container">
+    <embed src="mygame.swf"
+           width="100%"
+           height="100%"
+           allowfullscreen="true"
+           allow="fullscreen"
+           type="application/x-shockwave-flash" />
+  </div>
+
+  <script>
+    // Initialize Ruffle
+    window.RufflePlayer = window.RufflePlayer || {};
+    window.addEventListener("load", () => {
+      const ruffle = window.RufflePlayer.newest();
+      const container = document.getElementById("game-container");
+      ruffle.createPlayer().then(player => {
+        player.style.width = "100%";
+        player.style.height = "100%";
+        container.innerHTML = "";
+        container.appendChild(player);
+        player.load("The-Dr.-Robotnick.swf");
+      });
+    });
+  </script>
+</body>
+</html>
